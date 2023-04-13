@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const axios = require('axios');
 
 const app = express();
 
@@ -48,10 +49,45 @@ passport.deserializeUser(function (id, done) {
   }
 });
 
+const API_KEY = 'BNQW0ONCQHY90BJO'; // replace with your actual API key from Alpha Vantage
+
+
 // Define routes
-app.get("/", function (req, res) {
-  res.send("Hello, world!");
+app.get('/sentiment/:symbol', (req, res) => {
+  const symbol = req.params.symbol;
+
+  const url = 'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=demo';
+  axios.get(url)
+  .then(response => {
+    const data = response.data;
+    const quote = data['Global Quote'];
+    res.json(stockInfo);
+  })
+  .catch(error => {
+    console.error(`Request failed with error ${error.response.status}: ${error.response.statusText}`);
+    res.status(error.response.status).send(error.response.statusText);
+  });
 });
+  
+
+// Define routes
+app.get('/stock/:symbol', (req, res) => {
+  const symbol = req.params.symbol;
+
+  const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
+
+  axios.get(url)
+    .then(response => {
+      const data = response.data;
+      const quote = data['Global Quote'];
+      res.json(stockInfo);
+    })
+    .catch(error => {
+      console.error(`Request failed with error ${error.response.status}: ${error.response.statusText}`);
+      res.status(error.response.status).send(error.response.statusText);
+    });
+});
+
 
 app.get("/login", function (req, res) {
   res.send(`
