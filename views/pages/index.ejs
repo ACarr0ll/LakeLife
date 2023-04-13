@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <script src="/app.js"></script>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <div class="jumbotron">
+    <h1>This is great</h1>
+    <p>Welcome to templating using EJS</p>
+  </div>
+  <form id="apiForm">
+    <label for="ticker">Ticker:</label>
+    <input type="text" id="ticker" name="ticker">
+    <button type="submit" id="submitBtn">Submit</button>
+  </form>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
