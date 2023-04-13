@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const morgan = require("morgan");
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+// Add Morgan logging
+app.use(morgan("combined"));
 
 // Configure Passport middleware
 app.use(passport.initialize());
